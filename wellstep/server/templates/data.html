@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block body %}
+The main content!
+<br>
+<table id="team-stats" class="display">
+    <thead>
+    <tr>
+        {% for h in header %}
+        <th>{{ h }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in data %}
+    <tr>
+        {% for d in row %}
+        <td>{{ d }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

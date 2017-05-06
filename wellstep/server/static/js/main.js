@@ -1,0 +1,5 @@
+$(function() {
+
+    $("#team-stats").DataTable();
+
+})

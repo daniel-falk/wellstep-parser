@@ -12,9 +12,10 @@ setup(
             'requests',
             'beautifulsoup4',
             'html5lib',
-            'configparser'],
+            'configparser',
+            'Flask'],
         package_data = {'wellstep' : [
                 'config.ini'
-            ]}
+            ]},
         zip_safe = False)
 
