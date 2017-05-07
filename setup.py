@@ -15,7 +15,8 @@ setup(
             'ConfigParser',
             'Flask',
             'flask-sqlalchemy',
-            'mysqlclient'],
+            'mysqlclient',
+            'pygal'],
         package_data = {'wellstep' : [
                 'config.ini'
             ]},

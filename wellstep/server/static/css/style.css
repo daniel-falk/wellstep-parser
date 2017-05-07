@@ -5,12 +5,25 @@ body, html {
 
 
 .footer {
-    background-color: rgba(0,0,0,.1);
-    border: 0px solid rgba(255,0,0,.2);
-    border-top-width: 1px;
-    text-align: center;
-    position: fixed;
-    bottom: 0px;
+    display: none;
+}
+
+object {
+    height: 100%;
     width: 100%;
-    padding: 10px;
+}
+
+#NW, #NE, #SW, #SE { 
+    position:fixed; 
+    width:50%; 
+    height:50%;
+    padding: 0;
+}
+#NW { top:0;   left:0;}
+#NE { top:0;   left:50%;}
+#SW { top:50%; left:0;}
+#SE { top:50%; left:50%;}  
+
+.stats-table {
+    font-size: 90%;
 }

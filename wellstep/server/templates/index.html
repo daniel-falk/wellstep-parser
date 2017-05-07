@@ -4,7 +4,9 @@
     
     <head>
         {% block head %}
-    
+
+        <meta http-equiv="refresh" content="{{ refresh_time }}" />
+            
         <script type="text/javascript" src="{{ url_for('static', filename='DataTables-1.10.15/js/jquery.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='DataTables-1.10.15/js/jquery.dataTables.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
