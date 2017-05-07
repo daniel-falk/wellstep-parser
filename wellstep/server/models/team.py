@@ -15,3 +15,10 @@ class TeamPost(db.Model):
         self.position = position
         self.percent = percent
 
+    def get_dict(self):
+        return dict(
+                team = self.team,
+                score = self.score,
+                position = self.position,
+                percent = self.percent,
+                time = self.time)

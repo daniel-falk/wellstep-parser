@@ -34,4 +34,5 @@ def start_crawler():
 
 
 start_crawler()
-app.run()
+app.run() # Start web server
+worker.join(0)

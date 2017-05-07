@@ -1,5 +1,9 @@
 $(function() {
 
-    $("#team-stats").DataTable();
+    $(".stats-table").DataTable({
+            'bFilter' : false,
+            'bPaginate' : false,
+            'bInfo' : false,
+            'ordering' : false});
 
 })

@@ -10,10 +10,18 @@ class UserPost(db.Model):
     team = db.Column(db.String(255), nullable=False)
     time = db.Column(db.DateTime, default=db.func.now())
 
-    def __init__(self, name=None, score=None, position=None, percent=None, team=None, timestamp=None):
+    def __init__(self, name=None, score=None, position=None, percent=None, team=None):
         self.name = name
         self.score = score
         self.position = position
         self.team = team
         self.percent = percent
 
+    def get_dict(self):
+        return dict(
+                name = self.name,
+                score = self.score,
+                position = self.position,
+                percent = self.percent,
+                team = self.team,
+                time = self.time)

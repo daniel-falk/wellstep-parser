@@ -1,4 +1,6 @@
 from time import sleep
+from random import randint
+from configparser import NoOptionError
 
 from wellstep.crawl import Crawler
 from wellstep import conf
@@ -10,16 +12,30 @@ from wellstep.server.models.user import UserPost
 class CrawlerWorker(object):
 
     crawler = None
+    simulate = False
 
     def __init__(self):
-        self.crawler = Crawler()
-        self.crawler.set_config(**dict(conf.items('WELLSTEP')))
+        try:
+            if conf.get('WELLSTEP', 'simulate') == 'True':
+                self.simulate = True
+        except NoOptionError:
+            pass
+
+        if not self.simulate:
+            self.crawler = Crawler()
+            self.crawler.set_config(
+                    username = conf.get('WELLSTEP', 'username'),
+                    password = conf.get('WELLSTEP', 'password'))
 
 
     def work(self):
         while True:
-            self.fetch_to_db()
-            sleep(5)
+            if self.simulate:
+                self.simulate_to_db()
+            else:
+                self.fetch_to_db()
+            sleep(float(conf.get('WELLSTEP', 'fetch_delay')))
+
 
     def clean_up(self):
         print('Clean up..')
@@ -51,4 +67,53 @@ class CrawlerWorker(object):
         db.session.commit()
 
 
+    def simulate_to_db(self):
+        ## SIMULATE A TEAM
 
+        # Get the last values
+        last_ts = db.session.query(db.func.max(TeamPost.time)).one()[0]
+        team_data = list(map(
+                lambda post: post.get_dict(),
+                db.session.query(TeamPost).filter(TeamPost.time==last_ts).all()))
+
+        # Randomize an increase
+        for row in team_data:
+            row['score'] += randint(0,60)
+
+        # Make ordered list for scores to calc position
+        ordered_scores = sorted(map(lambda d: d['score'], team_data), key=lambda v: -v)
+
+        for row in team_data:
+            team_post = TeamPost(
+                    position = ordered_scores.index(row['score'])+1,
+                    team = row['team'],
+                    score = row['score'],
+                    percent = "? %") # Not implemented
+            db.session.add(team_post)
+
+        ## SIMULATE AN USER
+        last_ts = db.session.query(db.func.max(UserPost.time)).one()[0]
+        user_data = list(map(
+                lambda post: post.get_dict(),
+                db.session.query(UserPost).filter(UserPost.time==last_ts).all()))
+
+        # Randomize an increase
+        for row in user_data:
+            row['score'] += randint(0,60)
+
+        # Make ordered list for scores to calc position
+        ordered_scores = sorted(map(lambda d: d['score'], user_data), key=lambda v: -v)
+
+        for row in user_data:
+            user_post = UserPost(
+                    position = ordered_scores.index(row['score'])+1,
+                    name = row['name'],
+                    team = row['team'],
+                    score = row['score'],
+                    percent = "? %") # Not implemented
+            db.session.add(user_post)
+
+        db.session.commit()
+
+
+    # TODO: Add simulated users and teams if none
