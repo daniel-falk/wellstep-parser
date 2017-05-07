@@ -19,8 +19,3 @@ def show_data():
             header = header,
             data = body)
 
-crawler = Crawler()
-crawler.set_config(**dict(conf.items('WELLSTEP')))
-crawler.fetch()
-
-app.run()

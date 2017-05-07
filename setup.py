@@ -12,8 +12,10 @@ setup(
             'requests',
             'beautifulsoup4',
             'html5lib',
-            'configparser',
-            'Flask'],
+            'ConfigParser',
+            'Flask',
+            'flask-sqlalchemy',
+            'mysqlclient'],
         package_data = {'wellstep' : [
                 'config.ini'
             ]},
