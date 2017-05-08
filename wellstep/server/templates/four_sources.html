@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+{% block body %}
+
+{# Show the teams table #}
+<div id="NW">
+    <table class="display compact stats-table">
+        <thead>
+            <tr>
+                {% for h in team_header %}
+                <th>{{ h }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in team_data %}
+            <tr>
+                {% for d in row %}
+                <td>{{ d }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{# Show the teams graph #}
+<div id="NE">
+    <object type="image/svg+xml" data="{{ teams_graph|safe }}">Cant show svg graphics...</object>
+</div>
+
+
+{# Show the user table #}
+<div id="SW">
+    <table class="display compact stats-table">
+        <thead>
+            <tr>
+                {% for h in user_header %}
+                <th>{{ h }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in user_data %}
+            <tr>
+                {% for d in row %}
+                <td>{{ d }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{# Show the user graph #}
+<div id="SE">
+    <object type="image/svg+xml" data="{{ users_graph|safe }}">Cant show svg graphics...</object>
+</div>
+
+
+{% endblock %}

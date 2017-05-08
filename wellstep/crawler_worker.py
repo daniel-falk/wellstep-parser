@@ -22,10 +22,22 @@ class CrawlerWorker(object):
             pass
 
         if not self.simulate:
-            self.crawler = Crawler()
-            self.crawler.set_config(
-                    username = conf.get('WELLSTEP', 'username'),
-                    password = conf.get('WELLSTEP', 'password'))
+                self.crawler = Crawler()
+
+        proxy = dict()
+        try:
+            proxy.update({'http' : conf.get('WELLSTEP', 'http_proxy')})
+        except NoOptionError:
+            pass
+        try:
+            proxy.update({'https' : conf.get('WELLSTEP', 'https_proxy')})
+        except NoOptionError:
+            pass
+
+        self.crawler.set_config(
+                username = conf.get('WELLSTEP', 'username'),
+                password = conf.get('WELLSTEP', 'password'),
+                proxy = proxy)
 
 
     def work(self):
