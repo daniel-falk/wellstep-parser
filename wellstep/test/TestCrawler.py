@@ -14,11 +14,10 @@ class TestCrawler(unittest.TestCase):
         password = '6a5ds)!"#¤%/',
         proxy = {'https_proxy' : 'mypoxy.local:1234'}
         crawler = Crawler()
-        proxy = get_proxy()
         crawler.set_config(
                 password = password,
                 username = username,
-                proxy = proxy)
+                proxy = get_proxy())
 
         conf = crawler.get_config()
 
