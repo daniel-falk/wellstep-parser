@@ -3,7 +3,7 @@ from random import randint
 from configparser import NoOptionError
 
 from wellstep.crawl import Crawler
-from wellstep import conf
+from wellstep import conf, get_proxy
 from wellstep.server import db
 from wellstep.server.models.team import TeamPost
 from wellstep.server.models.user import UserPost
@@ -24,20 +24,12 @@ class CrawlerWorker(object):
         if not self.simulate:
                 self.crawler = Crawler()
 
-        proxy = dict()
-        try:
-            proxy.update({'http' : conf.get('WELLSTEP', 'http_proxy')})
-        except NoOptionError:
-            pass
-        try:
-            proxy.update({'https' : conf.get('WELLSTEP', 'https_proxy')})
-        except NoOptionError:
-            pass
+        proxy = get_proxy()
 
         self.crawler.set_config(
                 username = conf.get('WELLSTEP', 'username'),
                 password = conf.get('WELLSTEP', 'password'),
-                proxy = proxy)
+                proxy = get_proxy())
 
 
     def work(self):
@@ -62,7 +54,7 @@ class CrawlerWorker(object):
             team_post = TeamPost(
                     position = row[0],
                     team = row[1],
-                    score = row[2],
+                    score = row[2].replace(" ", ""),
                     percent = row[3])
             db.session.add(team_post)
 
@@ -71,7 +63,7 @@ class CrawlerWorker(object):
             user_post = UserPost(
                     position = row[0],
                     name = row[1],
-                    score = row[2],
+                    score = row[2].replace(" ", ""),
                     percent = row[3],
                     team = row[4])
             db.session.add(user_post)
