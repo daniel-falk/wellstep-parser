@@ -60,10 +60,18 @@ def show_users():
 @app.route('/users_time_graph/')
 def users_time_graph():
     graph = get_users_time_graph(conf['GUI']['time_graph_users'].split('|'))
-    return graph.render()
+    return render_template(
+            'graph.html',
+            title = 'User minutes over time',
+            graph = graph.render_data_uri(),
+            refresh_time = rt)
 
 
 @app.route('/teams_time_graph/')
 def teams_time_graph():
     graph = get_teams_time_graph()
-    return graph.render()
+    return render_template(
+            'graph.html',
+            title = 'Team minutes over time',
+            graph = graph.render_data_uri(),
+            refresh_time = rt)
