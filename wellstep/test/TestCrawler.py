@@ -2,7 +2,7 @@ import unittest
 from time import time
 
 from ..crawl import Crawler
-from .. import conf
+from .. import conf, get_proxy
 
 class TestCrawler(unittest.TestCase):
 
@@ -17,7 +17,7 @@ class TestCrawler(unittest.TestCase):
         crawler.set_config(
                 password = password,
                 username = username,
-                proxy = proxy)
+                proxy = get_proxy())
 
         conf = crawler.get_config()
 
@@ -29,7 +29,9 @@ class TestCrawler(unittest.TestCase):
     def test_get_data(self):
         crawler = Crawler()
         crawler.set_config(
-                **dict(conf.items('WELLSTEP')))
+                username=conf.get('WELLSTEP', 'username'),
+                password=conf.get('WELLSTEP', 'password'),
+                proxy=get_proxy())
         crawler.fetch()
         header, body, ts = crawler.get_team_data()
         self.assertTrue(isinstance(header, list))
