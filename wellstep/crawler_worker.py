@@ -24,8 +24,6 @@ class CrawlerWorker(object):
         if not self.simulate:
                 self.crawler = Crawler()
 
-        proxy = get_proxy()
-
         self.crawler.set_config(
                 username = conf.get('WELLSTEP', 'username'),
                 password = conf.get('WELLSTEP', 'password'),
