@@ -33,7 +33,7 @@ def get_users_time_graph(users):
     tvec = get_time_vector(UserPost, GRAPH_LEN)
     
     graph = Line(x_label_rotation=90)
-    graph.x_labels = tvec
+    graph.x_labels = time_vector_2_string(tvec)
 
     for user in users:
         user_y = get_user_time_serie(user, tvec)
@@ -46,7 +46,7 @@ def get_teams_time_graph(teams=None):
     if teams is None:
         teams = get_teams_list()
     graph = Line(x_label_rotation=90)
-    graph.x_labels = tvec
+    graph.x_labels = time_vector_2_string(tvec)
 
     for team in teams:
         team_y = get_team_time_serie(team, tvec)
@@ -76,8 +76,13 @@ def get_team_time_serie(teamname, tvec):
 
 def get_time_vector(model, length):
     tvec = list(map(
-        lambda d: d[0].strftime('%Y-%m-%d %H:%M'),
+        lambda d: d[0],
         db.session.query(model.time).order_by(model.time).distinct(model.time).all()))
     l = len(tvec)
     div = int(max(1, floor(l/length)))
     return [tvec[l-id] for id in range(1, l+1, div)]
+
+def time_vector_2_string(tvec):
+     return list(map(
+        lambda d: d.strftime('%Y-%m-%d %H:%M'),
+        tvec))
